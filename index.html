@@ -3,15 +3,65 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#171322" />
     <title>Dragon Ball RPG</title>
-    <style>
-      html, body { margin: 0; height: 100%; background: #101018; }
-      body { display: grid; place-items: center; overflow: hidden; }
-      canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
-    </style>
   </head>
   <body>
-    <div id="game"></div>
+    <header class="masthead">
+      <div class="shell masthead-inner">
+        <span class="dragon-ball" aria-hidden="true">✦</span>
+        <div class="brand">Dragon Ball <span>RPG</span></div>
+      </div>
+    </header>
+
+    <main class="shell">
+      <header class="encounter">
+        <p class="eyebrow">Saga de Pilaf</p>
+        <h1>Duelo no deserto</h1>
+      </header>
+
+      <div class="battle-layout">
+        <section class="stage" aria-label="Arena do deserto">
+          <div class="stage-top">
+            <span><span class="location-dot" aria-hidden="true"></span> Deserto de Diablo</span>
+            <span id="turn-label">Pré-batalha</span>
+          </div>
+          <div class="battlefield">
+            <div id="arena" aria-hidden="true"></div>
+            <p id="loading" role="status">Carregando arena…</p>
+            <div class="hud" id="fighters-hud" hidden>
+              <article class="vitals vitals-player" id="player-hud" aria-label="Goku criança">
+                <div class="vitals-title"><strong>Goku</strong><span data-stat="level"></span></div>
+                <div class="meter"><label for="player-hp">HP</label><progress id="player-hp"></progress><span data-stat="hp"></span></div>
+                <div class="meter"><label for="player-ki">KI</label><progress id="player-ki"></progress><span data-stat="ki"></span></div>
+              </article>
+              <article class="vitals vitals-enemy" id="enemy-hud" aria-label="Yamcha">
+                <div class="vitals-title"><strong>Yamcha</strong><span data-stat="level"></span></div>
+                <div class="meter"><label for="enemy-hp">HP</label><progress id="enemy-hp"></progress><span data-stat="hp"></span></div>
+                <div class="meter"><label for="enemy-ki">KI</label><progress id="enemy-ki"></progress><span data-stat="ki"></span></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="side-panel" aria-labelledby="panel-title">
+          <h2 id="panel-title" tabindex="-1">O encontro</h2>
+          <p id="panel-description">Na busca pelas Esferas do Dragão, Goku cruza o deserto e encontra Yamcha.</p>
+          <button class="primary-action" id="start-duel" type="button" disabled>Começar batalha</button>
+          <div id="commands" hidden>
+            <h3>Golpes</h3>
+            <div class="commands-list" id="moves"></div>
+            <h3>Táticas</h3>
+            <div class="commands-list" id="tactics"></div>
+          </div>
+        </section>
+
+        <section class="battle-log" aria-labelledby="log-title">
+          <h2 id="log-title">Registro da batalha</h2>
+          <ol id="battle-log" role="log" aria-labelledby="log-title" aria-relevant="additions"></ol>
+        </section>
+      </div>
+    </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

@@ -1,7 +1,7 @@
 # Dragon Ball RPG (web)
 
 RPG 2D de turnos para navegador, pixel art, inspirado em Pokémon FireRed e nos RPGs clássicos.
-Fã-game sem fins comerciais, com arte própria. Dragon Ball pertence a Toei, Shueisha e Bandai Namco.
+Fã-game sem fins comerciais. Dragon Ball pertence a Toei, Shueisha e Bandai Namco.
 
 **Stack:** TypeScript · Vite · Phaser 4 · Zod · Vitest
 
@@ -16,6 +16,17 @@ Fã-game sem fins comerciais, com arte própria. Dragon Ball pertence a Toei, Sh
 | `npm run simulate` | relatório de balanceamento: milhares de lutas com IA nos dois lados |
 | `npm run typecheck` | checa tipos |
 | `npm run build` | typecheck + build de produção em `dist/` |
+
+## Jogar o duelo
+
+1. Rode `npm ci` e depois `npm run dev`.
+2. Abra a URL mostrada pelo Vite e selecione **Começar batalha**.
+3. Use os botões ou as teclas **1–6**. O painel mostra o custo de KI e a precisão dos golpes. Defender reduz o dano, Concentrar recupera KI e a Carne Assada restaura HP.
+4. Ao terminar, selecione **Revanche** para reiniciar com HP, KI e itens restaurados.
+
+O duelo de Goku criança contra Yamcha é o primeiro encontro jogável da Fase 2. Os dois começam no nível 3 para que Goku possa usar o Bastão Mágico. Cada partida tem um inventário próprio e funciona independentemente dos dados salvos da campanha.
+
+A arena original é desenhada em Phaser. O atlas `src/game/assets/fighters.png` contém adaptações das duas folhas de sprites fornecidas para o projeto, em quatro poses por lutador (guarda inicial, ataque, defesa e dano).
 
 ## Arquitetura em camadas
 
@@ -75,7 +86,7 @@ const outcome = battle.outcome();                             // vencedor, HP/KI
 
 - [x] **Fase 0 — Fundação**
 - [x] **Fase 1 — Núcleo de combate** (sem gráficos)
-- [ ] Fase 2 — Tela de batalha
+- [ ] **Fase 2 — Tela de batalha** (em andamento, duelo Goku × Yamcha jogável)
 - [ ] Fase 3 — Exploração
 - [ ] Fase 4 — Progressão
 - [ ] Fase 5 — Motor de história
@@ -90,4 +101,3 @@ const outcome = battle.outcome();                             // vencedor, HP/KI
 - Sem acerto crítico, fuga de batalha nem status (veneno, etc.): não foram pedidos. Entram só se o design pedir.
 - A IA é básica de propósito (move-se por poder × precisão, concentra com KI baixo, transforma-se quando sustenta). Não usa itens nem trocas.
 - Textos estão em português direto nos JSON; internacionalização só se virar requisito.
-- `BootScene` é uma tela de diagnóstico; fonte pixel e UI estilo FireRed chegam na Fase 2.
