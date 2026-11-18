@@ -1,0 +1,9 @@
+{
+  "id": "kick",
+  "name": "Chute",
+  "category": "physical",
+  "power": 35,
+  "kiCost": 0,
+  "accuracy": 95,
+  "target": "enemy"
+}

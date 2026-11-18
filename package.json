@@ -1,0 +1,27 @@
+{
+  "name": "dragonball-rpg",
+  "private": true,
+  "version": "0.0.1",
+  "description": "RPG web 2D por turnos inspirado em Dragon Ball (f\u00e3-game sem fins comerciais)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "validate:data": "vitest run tests/data.integrity.test.ts",
+    "simulate": "node tools/run.mjs tools/simulate.ts"
+  },
+  "dependencies": {
+    "phaser": "^4.2.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}

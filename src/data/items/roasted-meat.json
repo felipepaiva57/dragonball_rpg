@@ -1,0 +1,7 @@
+{
+  "id": "roasted-meat",
+  "name": "Carne Assada",
+  "description": "Restaura 20 de HP.",
+  "kind": "consumable",
+  "effect": { "type": "heal-hp", "amount": 20 }
+}

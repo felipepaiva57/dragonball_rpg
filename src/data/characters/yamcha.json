@@ -1,0 +1,10 @@
+{
+  "id": "yamcha",
+  "name": "Yamcha",
+  "baseStats": { "hp": 28, "ki": 12, "attack": 9, "defense": 5, "speed": 9 },
+  "growth": { "hp": 3.6, "ki": 1.6, "attack": 1.3, "defense": 0.8, "speed": 1.1 },
+  "learnset": [
+    { "level": 1, "moveId": "punch" },
+    { "level": 1, "moveId": "kick" }
+  ]
+}

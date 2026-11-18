@@ -1,0 +1,11 @@
+{
+  "id": "goku-kid",
+  "name": "Goku (criança)",
+  "baseStats": { "hp": 30, "ki": 10, "attack": 8, "defense": 6, "speed": 8 },
+  "growth": { "hp": 4, "ki": 1.5, "attack": 1.2, "defense": 0.9, "speed": 1.0 },
+  "learnset": [
+    { "level": 1, "moveId": "punch" },
+    { "level": 1, "moveId": "kick" },
+    { "level": 3, "moveId": "power-pole-strike" }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "id": "senzu-bean",
+  "name": "Semente dos Deuses",
+  "description": "Restaura totalmente o HP e o KI de um lutador.",
+  "kind": "consumable",
+  "effect": { "type": "full-restore" }
+}

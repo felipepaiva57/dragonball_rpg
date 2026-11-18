@@ -1,0 +1,10 @@
+{
+  "id": "power-pole-strike",
+  "name": "Golpe do Bastão Mágico",
+  "description": "Golpe com o Bastão Mágico (Nyoibo).",
+  "category": "physical",
+  "power": 55,
+  "kiCost": 3,
+  "accuracy": 90,
+  "target": "enemy"
+}
