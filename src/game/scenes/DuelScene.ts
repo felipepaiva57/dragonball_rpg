@@ -25,8 +25,8 @@ export class DuelScene extends Phaser.Scene {
     drawDesert(this);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.sprites = {
-      player: new FighterSprite(this, 64, 133, 0, 1, reducedMotion),
-      enemy: new FighterSprite(this, 177, 120, 4, -1, reducedMotion),
+      player: new FighterSprite(this, 64, 133, 'goku-kid', 1, reducedMotion),
+      enemy: new FighterSprite(this, 177, 120, 'yamcha', -1, reducedMotion),
     };
     this.battle = createDuel(getContext(this).data);
     this.panel = new DuelPanel(() => this.startDuel());
@@ -99,7 +99,7 @@ export class DuelScene extends Phaser.Scene {
         const actor = this.fighter(event.actor);
         const move = this.battle.data.moves.require(event.moveId);
         this.panel.write(`${actor.name} usou ${move.name}.`);
-        await actor.sprite.strike(move.id === 'power-pole-strike');
+        await actor.sprite.strike(move.id);
         break;
       }
       case 'miss':
@@ -124,13 +124,15 @@ export class DuelScene extends Phaser.Scene {
         this.panel.setVital(target.side, 'ki', event.ki, target.stats.ki);
         if (event.reason === 'charge') {
           this.panel.write(`${target.name} concentrou e recuperou ${event.delta} KI.`);
-          await target.sprite.pulse(0x84ccff);
+          await target.sprite.charge();
         }
         break;
       }
       case 'item-used': {
         const item = this.battle.data.items.require(event.itemId);
-        this.panel.write(`${this.fighter(event.actor).name} usou ${item.name}.`);
+        const actor = this.fighter(event.actor);
+        this.panel.write(`${actor.name} usou ${item.name}.`);
+        await actor.sprite.useItem();
         break;
       }
       case 'hp-restored': {

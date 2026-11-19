@@ -1,6 +1,14 @@
 import Phaser from 'phaser';
 
-const POSES = { idle: 0, attack: 1, defend: 2, hit: 3 };
+// fighters.png: uma linha de 12 células por lutador, olhando para a direita.
+const ROW = { 'goku-kid': 0, yamcha: 12 } as const;
+const POSES = {
+  idle: 0, defend: 1, hit: 2, faint: 3,
+  punchReady: 4, punch: 5, kickReady: 6, kick: 7,
+  // Nas duas últimas poses de golpe, cada linha tem desenhos próprios.
+  staffReady: 8, staff: 9, recoil: 8, kickReturn: 9,
+  charge: 10, item: 11,
+} as const;
 type Pose = keyof typeof POSES;
 
 export class FighterSprite {
@@ -10,12 +18,12 @@ export class FighterSprite {
     private readonly scene: Phaser.Scene,
     private readonly x: number,
     private readonly y: number,
-    private readonly baseFrame: number,
+    private readonly character: keyof typeof ROW,
     private readonly direction: 1 | -1,
     private readonly reducedMotion: boolean,
   ) {
     scene.add.ellipse(x, y + 1, 34, 7, 0x743d45, 0.65);
-    this.sprite = scene.add.sprite(x, y, 'fighters', baseFrame).setOrigin(0.5, 1).setFlipX(direction < 0);
+    this.sprite = scene.add.sprite(x, y, 'fighters', ROW[character]).setOrigin(0.5, 1).setFlipX(direction < 0);
   }
 
   reset(): void {
@@ -24,19 +32,42 @@ export class FighterSprite {
   }
 
   pose(pose: Pose): void {
-    this.sprite.setFrame(this.baseFrame + POSES[pose]);
+    this.sprite.setFrame(ROW[this.character] + POSES[pose]);
   }
 
-  async strike(staff: boolean): Promise<void> {
-    this.pose('attack');
-    const direction = this.direction;
-    await this.tween({ x: this.x + direction * (staff ? 24 : 60), duration: 120 });
-    const staffGraphic = staff
-      ? this.scene.add.rectangle(this.sprite.x + direction * 26, this.y - 15, 35, 2, 0xc62438).setStrokeStyle(1, 0x67263c)
-      : undefined;
-    await this.wait(100);
-    staffGraphic?.destroy();
-    await this.tween({ x: this.x, duration: 130 });
+  async strike(moveId: string): Promise<void> {
+    let ready: Pose = 'punchReady';
+    let contact: Pose = 'punch';
+    let recovery: Pose = 'punchReady';
+    if (moveId === 'kick') {
+      ready = 'kickReady';
+      contact = 'kick';
+      recovery = this.character === 'yamcha' ? 'kickReturn' : 'kickReady';
+    } else if (moveId === 'power-pole-strike' && this.character === 'goku-kid') {
+      ready = recovery = 'staffReady';
+      contact = 'staff';
+    }
+
+    this.pose(ready);
+    await this.wait(95);
+    this.pose(contact);
+    const reach = contact === 'staff' ? 72 : 78;
+    await this.tween({ x: this.x + this.direction * reach, duration: 115 });
+    await this.wait(95);
+    this.pose(recovery);
+    await this.tween({ x: this.x, duration: 115 });
+    this.pose('idle');
+  }
+
+  async useItem(): Promise<void> {
+    this.pose('item');
+    await this.wait(210);
+    this.pose('idle');
+  }
+
+  async charge(): Promise<void> {
+    this.pose('charge');
+    await this.pulse(0x84ccff);
     this.pose('idle');
   }
 
@@ -46,11 +77,17 @@ export class FighterSprite {
     this.burst(guarded ? 0xc7eaff : 0xffcf80, 5);
     await this.tween({ x: this.x - this.direction * 5, duration: 70, yoyo: true });
     this.sprite.clearTint();
-    if (!guarded) this.pose('idle');
+    if (!guarded) {
+      if (this.character === 'yamcha') {
+        this.pose('recoil');
+        await this.wait(75);
+      }
+      this.pose('idle');
+    }
   }
 
   async faint(): Promise<void> {
-    this.pose('hit');
+    this.pose('faint');
     await this.tween({ alpha: 0.38, y: this.y + 5, duration: 220 });
   }
 
